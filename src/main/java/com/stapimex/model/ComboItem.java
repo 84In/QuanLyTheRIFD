@@ -14,6 +14,10 @@ public class ComboItem {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return name;

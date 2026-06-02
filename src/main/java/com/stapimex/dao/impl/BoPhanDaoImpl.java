@@ -2,6 +2,7 @@ package com.stapimex.dao.impl;
 
 import com.stapimex.config.DBConnection;
 import com.stapimex.dao.BoPhanDao;
+import com.stapimex.model.BoPhan;
 import com.stapimex.model.ComboItem;
 
 import java.sql.Connection;
@@ -16,17 +17,16 @@ public class BoPhanDaoImpl implements BoPhanDao {
         List<ComboItem> list = new ArrayList<>();
 
         String sql = """
-        SELECT id, ten_bo_phan
-        FROM BoPhan
-        ORDER BY ten_bo_phan
-        """;
+                SELECT id, ten_bo_phan
+                FROM Bo_Phan
+                ORDER BY id  ASC
+                """;
 
         try (
                 Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery()
         ) {
-
             while (rs.next()) {
 
                 list.add(
@@ -42,5 +42,70 @@ public class BoPhanDaoImpl implements BoPhanDao {
         }
 
         return list;
+    }
+
+    @Override
+    public List<BoPhan> findAll() {
+        List<BoPhan> list =
+                new ArrayList<>();
+
+        String sql =
+                """
+                        SELECT id, ten_bo_phan
+                        FROM Bo_Phan
+                        ORDER BY id ASC
+                        """;
+
+        try (
+                Connection conn =
+                        DBConnection.getConnection();
+
+                PreparedStatement ps =
+                        conn.prepareStatement(sql);
+
+                ResultSet rs =
+                        ps.executeQuery()
+        ) {
+
+            while (rs.next()) {
+
+                BoPhan item =
+                        new BoPhan();
+
+                item.setId(
+                        rs.getInt("id")
+                );
+
+                item.setTenBoPhan(
+                        rs.getString(
+                                "ten_bo_phan"
+                        )
+                );
+
+                list.add(item);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return list;
+
+    }
+
+    @Override
+    public boolean insert(BoPhan boPhan) {
+        return false;
+    }
+
+    @Override
+    public boolean update(BoPhan boPhan) {
+        return false;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
     }
 }

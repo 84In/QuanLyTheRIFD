@@ -2,10 +2,14 @@ package com.stapimex.view.the;
 
 import com.stapimex.controller.TheController;
 import com.stapimex.model.ComboItem;
+import com.stapimex.model.The;
+import com.stapimex.view.capphat.CapPhatDialog;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class ThePanel extends JPanel {
 
@@ -23,6 +27,9 @@ public class ThePanel extends JPanel {
     private JButton btnAdd;
     private JButton btnEdit;
     private JButton btnDelete;
+
+    private JButton btnCapPhat;
+    private JButton btnThuHoi;
 
     private final TheController controller;
 
@@ -124,9 +131,31 @@ public class ThePanel extends JPanel {
             }
         };
 
-        table = new JTable(model);
-
+        table = new JTable(model) {
+            @Override
+            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+                if (c instanceof JLabel) {
+                    ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
+                }
+                return c;
+            }
+        };
         table.setRowHeight(35);
+
+        table.getTableHeader()
+                .setReorderingAllowed(false);
+
+        table.setSelectionMode(
+                ListSelectionModel.SINGLE_SELECTION
+        );
+
+        DefaultTableCellRenderer centerRenderer =
+                new DefaultTableCellRenderer();
+
+        centerRenderer.setHorizontalAlignment(
+                SwingConstants.CENTER
+        );
 
         table.getTableHeader()
                 .setReorderingAllowed(false);
@@ -155,9 +184,15 @@ public class ThePanel extends JPanel {
                 )
         );
 
+        btnCapPhat = new JButton("Cấp phát");
+        btnThuHoi = new JButton("Thu hồi");
+
         btnAdd = new JButton("Thêm");
         btnEdit = new JButton("Sửa");
         btnDelete = new JButton("Xóa");
+
+        bottomPanel.add(btnCapPhat);
+        bottomPanel.add(btnThuHoi);
 
         bottomPanel.add(btnAdd);
         bottomPanel.add(btnEdit);
@@ -184,13 +219,11 @@ public class ThePanel extends JPanel {
                 )
         );
 
-        /*
-            TODO:
 
-            controller.loadBoPhan(cboBoPhan);
+        controller.loadBoPhan(cboBoPhan);
 
-            controller.loadNhom(cboNhom);
-        */
+        controller.loadNhom(cboNhom);
+
     }
 
     private void initEvents() {
@@ -268,6 +301,52 @@ public class ThePanel extends JPanel {
 
             controller.loadTable(model);
         });
+
+        btnCapPhat.addActionListener(e -> {
+
+            int row =
+                    table.getSelectedRow();
+
+            if (row < 0) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Vui lòng chọn thẻ"
+                );
+
+                return;
+            }
+
+            CapPhatDialog dialog =
+                    new CapPhatDialog(
+                            SwingUtilities.getWindowAncestor(this),
+                            "Cấp phát thẻ"
+                    );
+
+            dialog.setVisible(true);
+
+            if (dialog.isSaved()) {
+
+                int sbd =
+                        Integer.parseInt(
+                                model.getValueAt(
+                                        row,
+                                        0
+                                ).toString()
+                        );
+
+                controller.capPhat(
+                        sbd,
+                        dialog.getSoLuong(),
+                        dialog.getTinhTrang(),
+                        dialog.isDaKy(),
+                        dialog.getGhiChu()
+                );
+            }
+        });
+
+        btnAdd.addActionListener(this::actionPerformed);
+
     }
 
     public JTable getTable() {
@@ -276,5 +355,47 @@ public class ThePanel extends JPanel {
 
     public DefaultTableModel getModel() {
         return model;
+    }
+
+    private void actionPerformed(ActionEvent e) {
+
+        TheDialog dialog =
+                new TheDialog(
+                        SwingUtilities.getWindowAncestor(this)
+                );
+
+        controller.loadBoPhan(
+                dialog.getCboBoPhan()
+        );
+
+        controller.loadNhom(
+                dialog.getCboNhom()
+        );
+
+        dialog.setVisible(true);
+
+        if (dialog.isSaved()) {
+
+            try {
+
+                controller.insert(
+                        dialog.getData()
+                );
+
+                controller.loadTable(model);
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Thêm thành công"
+                );
+
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        ex.getMessage()
+                );
+            }
+        }
     }
 }

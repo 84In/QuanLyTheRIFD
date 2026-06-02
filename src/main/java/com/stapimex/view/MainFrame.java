@@ -1,6 +1,8 @@
 package com.stapimex.view;
 
+import com.stapimex.view.bophan.BoPhanPanel;
 import com.stapimex.view.dashboard.DashboardPanel;
+import com.stapimex.view.nhom.NhomPanel;
 import com.stapimex.view.the.ThePanel;
 
 import javax.swing.*;
@@ -67,6 +69,12 @@ public class MainFrame extends JFrame {
         JButton btnThe =
                 createMenuButton("Quản lý thẻ");
 
+        JButton btnBoPhan =
+                createMenuButton("Quản lý bộ phận");
+
+        JButton btnNhom =
+                createMenuButton("Quản lý nhóm");
+
         //------------------------------------
         // ADD COMPONENTS
         //------------------------------------
@@ -86,8 +94,26 @@ public class MainFrame extends JFrame {
         menuPanel.add(btnThe);
 
         menuPanel.add(
+                Box.createVerticalStrut(8)
+        );
+
+        menuPanel.add(btnBoPhan);
+
+        menuPanel.add(
+                Box.createVerticalStrut(8)
+        );
+
+        menuPanel.add(btnNhom);
+        menuPanel.add(
+                Box.createVerticalStrut(8)
+        );
+
+
+        menuPanel.add(
                 Box.createVerticalGlue()
         );
+
+
 
         //------------------------------------
         // SIDEBAR BORDER
@@ -140,6 +166,16 @@ public class MainFrame extends JFrame {
                 "the"
         );
 
+        contentPanel.add(
+                new BoPhanPanel(),
+                "bophan"
+        );
+
+        contentPanel.add(
+                new NhomPanel(),
+                "nhom"
+        );
+
         add(
                 contentPanel,
                 BorderLayout.CENTER
@@ -169,6 +205,20 @@ public class MainFrame extends JFrame {
                 e -> cardLayout.show(
                         contentPanel,
                         "the"
+                )
+        );
+
+        btnBoPhan.addActionListener(e ->
+                cardLayout.show(
+                        contentPanel,
+                        "bophan"
+                )
+        );
+
+        btnNhom.addActionListener(e ->
+                cardLayout.show(
+                        contentPanel,
+                        "nhom"
                 )
         );
     }
