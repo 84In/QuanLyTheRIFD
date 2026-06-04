@@ -1,9 +1,14 @@
 package com.stapimex.view.capphat;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 public class CapPhatDialog extends JDialog {
+
+    private JDateChooser jdNgayCapPhat;
 
     private JSpinner spSoLuong;
 
@@ -53,11 +58,30 @@ public class CapPhatDialog extends JDialog {
                 GridBagConstraints.HORIZONTAL;
 
         //-------------------------
+        // Ngày cấp phát (THÊM MỚI Ở ĐÂY)
+        //-------------------------
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0;
+        panel.add(new JLabel("Ngày cấp phát:"), gbc);
+
+        jdNgayCapPhat = new JDateChooser();
+        jdNgayCapPhat.setDateFormatString("dd/MM/yyyy");
+        jdNgayCapPhat.setDate(new Date());
+
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        panel.add(jdNgayCapPhat, gbc);
+
+        //-------------------------
         // Số lượng
         //-------------------------
 
+//        gbc.gridx = 0;
+//        gbc.gridy = 0;
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy++;
+        gbc.weightx = 0;
 
         panel.add(
                 new JLabel("Số lượng"),
@@ -176,6 +200,7 @@ public class CapPhatDialog extends JDialog {
         btnSave.addActionListener(e -> {
 
             saved = true;
+            //Xử lý cập nhật tại đây (gọi action controller)
 
             dispose();
         });

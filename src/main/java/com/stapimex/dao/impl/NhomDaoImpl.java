@@ -30,6 +30,9 @@ public class NhomDaoImpl implements NhomDao {
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery()
         ) {
+            list.add(new ComboItem(
+                    0, "Tất cả"
+            ));
             while (rs.next()) {
 
                 list.add(

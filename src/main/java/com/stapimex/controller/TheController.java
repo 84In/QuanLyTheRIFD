@@ -36,13 +36,13 @@ public class TheController {
 
         comboBox.removeAllItems();
 
-        for (BoPhan item :
-                boPhanDao.findAll()) {
+        for (ComboItem item :
+                boPhanDao.findAllCombo()) {
 
             comboBox.addItem(
                     new ComboItem(
                             item.getId(),
-                            item.getTenBoPhan()
+                            item.getName()
                     )
             );
         }
@@ -54,13 +54,13 @@ public class TheController {
 
         comboBox.removeAllItems();
 
-        for (Nhom item :
-                nhomDao.findAll()) {
+        for (ComboItem item :
+                nhomDao.findAllCombo()) {
 
             comboBox.addItem(
                     new ComboItem(
                             item.getId(),
-                            item.getTenNhom()
+                            item.getName()
                     )
             );
         }
