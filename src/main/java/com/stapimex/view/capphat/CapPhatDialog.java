@@ -12,7 +12,7 @@ public class CapPhatDialog extends JDialog {
 
     private JSpinner spSoLuong;
 
-    private JTextArea txtGhiChu;
+    private JComboBox<String> cboGhiChu;
 
     private JComboBox<String> cboTinhTrang;
 
@@ -166,17 +166,24 @@ public class CapPhatDialog extends JDialog {
                 gbc
         );
 
-        txtGhiChu =
-                new JTextArea(
-                        5,
-                        20
-                );
+        cboGhiChu = new JComboBox<>(
+                new String[]{
+                        "",
+                        "Cấp phát mới",
+                        "Thu hồi cuối tháng",
+                        "Thẻ mất",
+                        "Thẻ hỏng",
+                        "Cấp phát bổ sung",
+                        "Điều chỉnh số lượng",
+                        "Thay thế thẻ lỗi"
+                }
+        );
 
         gbc.gridx = 1;
 
         panel.add(
                 new JScrollPane(
-                        txtGhiChu
+                        cboGhiChu
                 ),
                 gbc
         );
@@ -217,20 +224,30 @@ public class CapPhatDialog extends JDialog {
         return saved;
     }
 
+    public Date getNgayCapPhat() {
+        return jdNgayCapPhat.getDate();
+    }
+
     public int getSoLuong() {
         return (Integer)
                 spSoLuong.getValue();
     }
 
-    public int getTinhTrang() {
+    public int getTinhTrangValue() {
         return cboTinhTrang.getSelectedIndex();
     }
 
-    public boolean isDaKy() {
-        return chkDaKy.isSelected();
+    public String getTinhTrangText() {
+        return cboTinhTrang
+                .getSelectedItem()
+                .toString();
+    }
+
+    public int getDaKy() {
+        return chkDaKy.isSelected() ? 1 : 0;
     }
 
     public String getGhiChu() {
-        return txtGhiChu.getText().trim();
+        return cboGhiChu.getSelectedItem().toString().trim();
     }
 }

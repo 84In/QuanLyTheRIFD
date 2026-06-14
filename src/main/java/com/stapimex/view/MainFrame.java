@@ -1,6 +1,7 @@
 package com.stapimex.view;
 
 import com.stapimex.view.bophan.BoPhanPanel;
+import com.stapimex.view.capphat.CapPhatPanel;
 import com.stapimex.view.dashboard.DashboardPanel;
 import com.stapimex.view.nhom.NhomPanel;
 import com.stapimex.view.the.ThePanel;
@@ -20,7 +21,7 @@ public class MainFrame extends JFrame {
     private void initComponents() {
 
         setTitle("Quản lý thẻ RFID");
-        setSize(1400, 800);
+        setSize(1500, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -75,6 +76,9 @@ public class MainFrame extends JFrame {
         JButton btnNhom =
                 createMenuButton("Quản lý nhóm");
 
+        JButton btnLichSuCapPhat =
+                createMenuButton("Lịch sử cấp phát");
+
         //------------------------------------
         // ADD COMPONENTS
         //------------------------------------
@@ -108,11 +112,15 @@ public class MainFrame extends JFrame {
                 Box.createVerticalStrut(8)
         );
 
+        menuPanel.add(btnLichSuCapPhat);
+        menuPanel.add(
+                Box.createVerticalStrut(8)
+        );
+
 
         menuPanel.add(
                 Box.createVerticalGlue()
         );
-
 
 
         //------------------------------------
@@ -176,6 +184,11 @@ public class MainFrame extends JFrame {
                 "nhom"
         );
 
+        contentPanel.add(
+                new CapPhatPanel(),
+                "lichSuCapPhat"
+        );
+
         add(
                 contentPanel,
                 BorderLayout.CENTER
@@ -219,6 +232,13 @@ public class MainFrame extends JFrame {
                 cardLayout.show(
                         contentPanel,
                         "nhom"
+                )
+        );
+
+        btnLichSuCapPhat.addActionListener(e ->
+                cardLayout.show(
+                        contentPanel,
+                        "lichSuCapPhat"
                 )
         );
     }

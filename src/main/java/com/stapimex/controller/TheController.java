@@ -6,9 +6,7 @@ import com.stapimex.dao.TheDao;
 import com.stapimex.dao.impl.BoPhanDaoImpl;
 import com.stapimex.dao.impl.NhomDaoImpl;
 import com.stapimex.dao.impl.TheDaoImpl;
-import com.stapimex.model.BoPhan;
 import com.stapimex.model.ComboItem;
-import com.stapimex.model.Nhom;
 import com.stapimex.model.The;
 import com.stapimex.model.view.TheView;
 
@@ -75,7 +73,9 @@ public class TheController {
 
             model.addRow(new Object[]{
                     item.getSbd(),
+                    item.getMaNhom(),
                     item.getTenNhom(),
+                    item.getMaBoPhan(),
                     item.getTenBoPhan(),
                     item.getSoLuong()
             });
@@ -119,10 +119,7 @@ public class TheController {
         }
     }
 
-    public void capPhat(int sbd, int soLuong, int tinhTrang, boolean daKy, String ghiChu) {
 
-
-    }
     public void thuHoi(
             int sbd,
             int soLuong,

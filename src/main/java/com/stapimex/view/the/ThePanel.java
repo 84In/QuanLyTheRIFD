@@ -1,13 +1,15 @@
 package com.stapimex.view.the;
 
 import com.stapimex.controller.TheController;
+import com.stapimex.controller.ThuHoiCapPhatController;
 import com.stapimex.model.ComboItem;
-import com.stapimex.model.The;
+import com.stapimex.model.ThuHoiCapPhat;
 import com.stapimex.view.capphat.CapPhatDialog;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -32,10 +34,13 @@ public class ThePanel extends JPanel {
     private JButton btnThuHoi;
 
     private final TheController controller;
+    private final ThuHoiCapPhatController thuHoiCapPhatController;
 
     public ThePanel() {
 
         controller = new TheController();
+
+        thuHoiCapPhatController = new ThuHoiCapPhatController();
 
         initComponents();
 
@@ -116,7 +121,9 @@ public class ThePanel extends JPanel {
         model = new DefaultTableModel(
                 new Object[]{
                         "SBD",
+                        "Mã Nhóm",
                         "Nhóm",
+                        "Mã Bộ Phận",
                         "Bộ phận",
                         "Số lượng"
                 },
@@ -133,14 +140,33 @@ public class ThePanel extends JPanel {
 
         table = new JTable(model) {
             @Override
-            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
-                Component c = super.prepareRenderer(renderer, row, column);
+            public Component prepareRenderer(
+                    TableCellRenderer renderer,
+                    int row,
+                    int column
+            ) {
+                Component c =
+                        super.prepareRenderer(
+                                renderer,
+                                row,
+                                column
+                        );
+
                 if (c instanceof JLabel) {
-                    ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
+                    ((JLabel) c)
+                            .setHorizontalAlignment(
+                                    SwingConstants.CENTER
+                            );
                 }
+
                 return c;
             }
         };
+
+        // Ẩn cột
+        hideColumn(1);
+        hideColumn(3);
+
         table.setRowHeight(35);
 
         table.getTableHeader()
@@ -226,6 +252,25 @@ public class ThePanel extends JPanel {
 
     }
 
+    // Hàm xử lý Ẩn cột
+
+    private void hideColumn(
+            int columnIndex
+    ) {
+
+        table.getColumnModel()
+                .getColumn(columnIndex)
+                .setMinWidth(0);
+
+        table.getColumnModel()
+                .getColumn(columnIndex)
+                .setMaxWidth(0);
+
+        table.getColumnModel()
+                .getColumn(columnIndex)
+                .setPreferredWidth(0);
+    }
+
     private void initEvents() {
 
         btnSearch.addActionListener(e -> {
@@ -304,8 +349,7 @@ public class ThePanel extends JPanel {
 
         btnCapPhat.addActionListener(e -> {
 
-            int row =
-                    table.getSelectedRow();
+            int row = table.getSelectedRow();
 
             if (row < 0) {
 
@@ -327,21 +371,61 @@ public class ThePanel extends JPanel {
 
             if (dialog.isSaved()) {
 
-                int sbd =
-                        Integer.parseInt(
-                                model.getValueAt(
-                                        row,
-                                        0
-                                ).toString()
-                        );
+                try {
 
-                controller.capPhat(
-                        sbd,
-                        dialog.getSoLuong(),
-                        dialog.getTinhTrang(),
-                        dialog.isDaKy(),
-                        dialog.getGhiChu()
-                );
+                    int sbd =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            0
+                                    ).toString()
+                            );
+
+                    int maNhom =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            1
+                                    ).toString()
+                            );
+
+                    int maBoPhan =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            3
+                                    ).toString()
+                            );
+                    ThuHoiCapPhat thuHoiCapPhat = new ThuHoiCapPhat(
+                            dialog.getNgayCapPhat(),
+                            sbd,
+                            maNhom,
+                            maBoPhan,
+                            dialog.getSoLuong(),
+                            dialog.getTinhTrangText(),
+                            dialog.getDaKy(),
+                            1,
+                            dialog.getGhiChu());
+                    thuHoiCapPhatController.insert(
+                            thuHoiCapPhat
+                    );
+
+                    controller.loadTable(model);
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Cấp phát thành công"
+                    );
+
+                } catch (Exception ex) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            ex.getMessage(),
+                            "Lỗi" + ex.getMessage(),
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
             }
         });
 
@@ -369,8 +453,7 @@ public class ThePanel extends JPanel {
         );
 
         controller.loadNhom(
-                dialog.getCboNhom()
-        );
+                dialog.getCboNhom());
 
         dialog.setVisible(true);
 
