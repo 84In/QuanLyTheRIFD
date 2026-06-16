@@ -125,6 +125,7 @@ public class ThuHoiCapPhatImpl implements ThuHoiCapPhatDao {
                             item
                     );
 
+
             if (soLuongHienTai < 0) {
 
                 throw new RuntimeException(
@@ -452,6 +453,7 @@ public class ThuHoiCapPhatImpl implements ThuHoiCapPhatDao {
                     AND ma_bo_phan = ?
                 """;
 
+
         try (
                 PreparedStatement ps =
                         conn.prepareStatement(sql)
@@ -471,7 +473,7 @@ public class ThuHoiCapPhatImpl implements ThuHoiCapPhatDao {
                     3,
                     item.getMaBoPhan()
             );
-
+            System.out.println("sbd "+ item.getSbd() + " manhom: "+ item.getMaNhom()+" mabophan: "+ item.getMaBoPhan());
             ResultSet rs =
                     ps.executeQuery();
 

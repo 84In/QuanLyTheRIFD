@@ -14,6 +14,8 @@ public class MainFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel contentPanel;
 
+    private CapPhatPanel capPhatPanel;
+
     public MainFrame() {
         initComponents();
     }
@@ -183,9 +185,9 @@ public class MainFrame extends JFrame {
                 new NhomPanel(),
                 "nhom"
         );
-
+        capPhatPanel = new CapPhatPanel();
         contentPanel.add(
-                new CapPhatPanel(),
+                capPhatPanel ,
                 "lichSuCapPhat"
         );
 
@@ -236,10 +238,13 @@ public class MainFrame extends JFrame {
         );
 
         btnLichSuCapPhat.addActionListener(e ->
-                cardLayout.show(
-                        contentPanel,
-                        "lichSuCapPhat"
-                )
+                {
+                    capPhatPanel.reloadData();
+                    cardLayout.show(
+                            contentPanel,
+                            "lichSuCapPhat"
+                    );
+                }
         );
     }
 

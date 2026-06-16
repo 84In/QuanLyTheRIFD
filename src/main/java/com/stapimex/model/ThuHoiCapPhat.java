@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ThuHoiCapPhat {
 
-    private Date ngayThuCapPhatThuHoi;
+    private Date ngayCapPhatThuHoi;
     private int maBoPhan;
     private int maNhom;
     private int sbd;
@@ -17,8 +17,8 @@ public class ThuHoiCapPhat {
     public ThuHoiCapPhat() {
     }
 
-    public ThuHoiCapPhat(Date ngayThuCapPhatThuHoi, int maBoPhan, int maNhom, int sbd, int soLuong, String tinhTrang, int daKy, int capPhat, String ghiChu) {
-        this.ngayThuCapPhatThuHoi = ngayThuCapPhatThuHoi;
+    public ThuHoiCapPhat(Date ngayCapPhatThuHoi, int maBoPhan, int maNhom, int sbd, int soLuong, String tinhTrang, int daKy, int capPhat, String ghiChu) {
+        this.ngayCapPhatThuHoi = ngayCapPhatThuHoi;
         this.maBoPhan = maBoPhan;
         this.maNhom = maNhom;
         this.sbd = sbd;
@@ -30,11 +30,11 @@ public class ThuHoiCapPhat {
     }
 
     public Date getNgayThuCapPhatThuHoi() {
-        return ngayThuCapPhatThuHoi;
+        return ngayCapPhatThuHoi;
     }
 
     public void setNgayThuCapPhatThuHoi(Date ngayThuCapPhatThuHoi) {
-        this.ngayThuCapPhatThuHoi = ngayThuCapPhatThuHoi;
+        this.ngayCapPhatThuHoi = ngayThuCapPhatThuHoi;
     }
 
     public int getMaBoPhan() {

@@ -1,8 +1,9 @@
 package com.stapimex.view.capphat;
 
 import com.stapimex.controller.ThuHoiCapPhatController;
-import com.stapimex.dao.impl.ThuHoiCapPhatImpl;
 import com.stapimex.model.ComboItem;
+import com.stapimex.model.ThuHoiCapPhat;
+import com.stapimex.view.thuhoi.ThuHoiDialog;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class CapPhatPanel extends JPanel {
 
     private JButton btnSearch;
     private JButton btnRefresh;
-    private JButton btnDetail;
+    private JButton btnThuHoi;
 
     private ThuHoiCapPhatController controller;
 
@@ -39,6 +40,10 @@ public class CapPhatPanel extends JPanel {
 
         loadComboData();
 
+        reloadData();
+    }
+
+    public void reloadData() {
         controller.loadTable(model);
     }
 
@@ -329,15 +334,10 @@ public class CapPhatPanel extends JPanel {
                         )
                 );
 
-        btnDetail =
-                new JButton(
-                        "Chi tiết"
-                );
-
-        bottomPanel.add(
-                btnDetail
+        btnThuHoi = new JButton(
+                "Thu hồi"
         );
-
+        bottomPanel.add(btnThuHoi);
         add(
                 bottomPanel,
                 BorderLayout.SOUTH
@@ -366,7 +366,8 @@ public class CapPhatPanel extends JPanel {
         controller.loadNhom(cboNhom);
 
     }
-    private void initEvents(){
+
+    private void initEvents() {
         btnSearch.addActionListener(e -> {
 
             Integer maBoPhan = null;
@@ -445,6 +446,87 @@ public class CapPhatPanel extends JPanel {
 
             controller.loadTable(model);
         });
+        btnThuHoi.addActionListener(e -> {
+
+            int row = table.getSelectedRow();
+
+            if (row < 0) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Vui lòng chọn thẻ"
+                );
+
+                return;
+            }
+
+            ThuHoiDialog dialog =
+                    new ThuHoiDialog(
+                            SwingUtilities.getWindowAncestor(this),
+                            "Thu hồi thẻ"
+                    );
+
+            dialog.setVisible(true);
+
+            if (dialog.isSaved()) {
+
+                try {
+
+                    int sbd =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            1
+                                    ).toString()
+                            );
+
+                    int maNhom =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            2
+                                    ).toString()
+                            );
+
+                    int maBoPhan =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            4
+                                    ).toString()
+                            );
+                    ThuHoiCapPhat thuHoiCapPhat = new ThuHoiCapPhat(
+                            dialog.getNgayThuHoi(),
+                            maBoPhan,
+                            maNhom,
+                            sbd,
+                            dialog.getSoLuong(),
+                            dialog.getTinhTrangText(),
+                            dialog.getDaKy(),
+                            1,
+                            dialog.getGhiChu());
+//                    thuHoiCapPhatController.insert(
+//                            thuHoiCapPhat
+//                    );
+
+                    controller.loadTable(model);
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Thu hồi thành công"
+                    );
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(
+                            this,
+                            ex.getMessage(),
+                            "Lỗi" + ex.getMessage(),
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        });
     }
 
 
@@ -484,8 +566,8 @@ public class CapPhatPanel extends JPanel {
         return btnRefresh;
     }
 
-    public JButton getBtnDetail() {
-        return btnDetail;
+    public JButton getBtnThuHoi() {
+        return btnThuHoi;
     }
 
 

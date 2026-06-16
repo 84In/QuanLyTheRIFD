@@ -398,9 +398,9 @@ public class ThePanel extends JPanel {
                             );
                     ThuHoiCapPhat thuHoiCapPhat = new ThuHoiCapPhat(
                             dialog.getNgayCapPhat(),
-                            sbd,
-                            maNhom,
                             maBoPhan,
+                            maNhom,
+                            sbd,
                             dialog.getSoLuong(),
                             dialog.getTinhTrangText(),
                             dialog.getDaKy(),
