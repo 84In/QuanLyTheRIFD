@@ -63,6 +63,7 @@ public class TheController {
             );
         }
     }
+
     public void loadTable(DefaultTableModel model) {
 
         model.setRowCount(0);
@@ -102,7 +103,9 @@ public class TheController {
 
             model.addRow(new Object[]{
                     item.getSbd(),
+                    item.getMaNhom(),
                     item.getTenNhom(),
+                    item.getMaBoPhan(),
                     item.getTenBoPhan(),
                     item.getSoLuong()
             });
@@ -117,16 +120,5 @@ public class TheController {
                     "Thêm thẻ thất bại"
             );
         }
-    }
-
-
-    public void thuHoi(
-            int sbd,
-            int soLuong,
-            int tinhTrang,
-            boolean daKy,
-            String ghiChu
-    ){
-
     }
 }

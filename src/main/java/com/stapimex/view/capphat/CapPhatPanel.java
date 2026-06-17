@@ -503,11 +503,11 @@ public class CapPhatPanel extends JPanel {
                             dialog.getSoLuong(),
                             dialog.getTinhTrangText(),
                             dialog.getDaKy(),
-                            1,
+                            0,
                             dialog.getGhiChu());
-//                    thuHoiCapPhatController.insert(
-//                            thuHoiCapPhat
-//                    );
+                    controller.insert(
+                            thuHoiCapPhat
+                    );
 
                     controller.loadTable(model);
 

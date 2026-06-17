@@ -146,6 +146,8 @@ public class ThuHoiCapPhatImpl implements ThuHoiCapPhatDao {
                 );
             }
 
+
+
             //--------------------------
             // Lưu lịch sử
             //--------------------------

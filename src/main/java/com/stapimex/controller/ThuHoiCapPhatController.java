@@ -36,7 +36,7 @@ public class ThuHoiCapPhatController {
         if (!thuHoiCapPhatDao.insert(thuHoiCapPhat)) {
 
             throw new RuntimeException(
-                    "Cấp phát thất bại!"
+                thuHoiCapPhat.getCapPhat() == 1 ? "Cấp phát thất bại!": "Thu hồi thất bai!"
             );
         }
     }
