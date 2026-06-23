@@ -23,6 +23,7 @@ public class ThuHoiCapPhatController {
     private ThuHoiCapPhatDao thuHoiCapPhatDao;
     private BoPhanDao boPhanDao;
     private NhomDao nhomDao;
+
     public ThuHoiCapPhatController(){
         thuHoiCapPhatDao = new ThuHoiCapPhatImpl();
         this.boPhanDao = new BoPhanDaoImpl();
@@ -77,12 +78,12 @@ public class ThuHoiCapPhatController {
         }
     }
 
-    public void loadTable(DefaultTableModel model) {
+    public void loadTable(DefaultTableModel model, boolean capPhat) {
 
         model.setRowCount(0);
 
-        List<ThuHoiCapPhatView> list =
-                thuHoiCapPhatDao.findAllCapPhat();
+        List<ThuHoiCapPhatView> list = capPhat ?
+                thuHoiCapPhatDao.findAllCapPhat(): thuHoiCapPhatDao.findAllThuHoi();
 
         for (ThuHoiCapPhatView item : list) {
 
@@ -119,7 +120,8 @@ public class ThuHoiCapPhatController {
             Date denNgay,
             Integer maBoPhan,
             Integer maNhom,
-            Integer sbd
+            Integer sbd,
+            boolean capPhat
     ) {
 
         model.setRowCount(0);
@@ -131,7 +133,7 @@ public class ThuHoiCapPhatController {
                         maBoPhan,
                         maNhom,
                         sbd,
-                        1 // cấp phát
+                        capPhat ? 1 : 0 // cấp phát
                 );
 
         for (ThuHoiCapPhatView item : list) {
@@ -162,5 +164,14 @@ public class ThuHoiCapPhatController {
                     }
             );
         }
+    }
+
+    @Transient
+    public void remove(ThuHoiCapPhat item){
+        thuHoiCapPhatDao.remove(item);
+    }
+
+    public void kyNhan(ThuHoiCapPhat item){
+        thuHoiCapPhatDao.updateKyNhan(item);
     }
 }

@@ -1,4 +1,4 @@
-package com.stapimex.view.capphat;
+package com.stapimex.view.thuhoi;
 
 import com.stapimex.controller.ThuHoiCapPhatController;
 import com.stapimex.model.ComboItem;
@@ -12,7 +12,7 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CapPhatPanel extends JPanel {
+public class ThuHoiPanel extends JPanel {
 
     private JTable table;
     private DefaultTableModel model;
@@ -27,12 +27,12 @@ public class CapPhatPanel extends JPanel {
 
     private JButton btnSearch;
     private JButton btnRefresh;
-    private JButton btnXoa;
     private JButton btnKyNhan;
+    private JButton btnXoa;
 
     private ThuHoiCapPhatController controller;
 
-    public CapPhatPanel() {
+    public ThuHoiPanel() {
         controller = new ThuHoiCapPhatController();
 
         initComponents();
@@ -45,7 +45,7 @@ public class CapPhatPanel extends JPanel {
     }
 
     public void reloadData() {
-        controller.loadTable(model, true);
+        controller.loadTable(model, false);
     }
 
     private void initComponents() {
@@ -63,7 +63,7 @@ public class CapPhatPanel extends JPanel {
 
         JLabel lblTitle =
                 new JLabel(
-                        "LỊCH SỬ CẤP PHÁT"
+                        "LỊCH SỬ THU HOI"
                 );
 
         lblTitle.setFont(
@@ -338,11 +338,12 @@ public class CapPhatPanel extends JPanel {
         btnKyNhan = new JButton(
                 "Ký nhận"
         );
+        bottomPanel.add(btnKyNhan);
 
         btnXoa = new JButton(
                 "Xoá"
         );
-        bottomPanel.add(btnKyNhan);
+
         bottomPanel.add(btnXoa);
         add(
                 bottomPanel,
@@ -434,7 +435,7 @@ public class CapPhatPanel extends JPanel {
                     maBoPhan,
                     maNhom,
                     sbd,
-                    true
+                    false
             );
         });
         btnRefresh.addActionListener(e -> {
@@ -451,7 +452,7 @@ public class CapPhatPanel extends JPanel {
 
             txtSbd.setText("");
 
-            controller.loadTable(model, true);
+            controller.loadTable(model, false);
         });
         btnKyNhan.addActionListener(e->{
             int row = table.getSelectedRow();
@@ -511,7 +512,7 @@ public class CapPhatPanel extends JPanel {
                         ""
                 );
                 controller.kyNhan(item);
-                controller.loadTable(model, true);
+                controller.loadTable(model, false);
 
                 JOptionPane.showMessageDialog(
                         this,
@@ -594,7 +595,7 @@ public class CapPhatPanel extends JPanel {
 
                 controller.remove(item);
 
-                controller.loadTable(model, true);
+                controller.loadTable(model, false);
 
                 JOptionPane.showMessageDialog(
                         this,
@@ -649,10 +650,5 @@ public class CapPhatPanel extends JPanel {
     public JButton getBtnRefresh() {
         return btnRefresh;
     }
-
-    public JButton getbtnXoa() {
-        return btnXoa;
-    }
-
 
 }

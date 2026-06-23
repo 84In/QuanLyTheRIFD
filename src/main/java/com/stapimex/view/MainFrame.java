@@ -5,6 +5,7 @@ import com.stapimex.view.capphat.CapPhatPanel;
 import com.stapimex.view.dashboard.DashboardPanel;
 import com.stapimex.view.nhom.NhomPanel;
 import com.stapimex.view.the.ThePanel;
+import com.stapimex.view.thuhoi.ThuHoiPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,8 @@ public class MainFrame extends JFrame {
     private JPanel contentPanel;
 
     private CapPhatPanel capPhatPanel;
+    private ThuHoiPanel thuHoiPanel;
+    private ThePanel thePanel;
 
     public MainFrame() {
         initComponents();
@@ -81,6 +84,9 @@ public class MainFrame extends JFrame {
         JButton btnLichSuCapPhat =
                 createMenuButton("Lịch sử cấp phát");
 
+        JButton btnLichSuThuHoi =
+                createMenuButton("Lịch sử thu hồi");
+
         //------------------------------------
         // ADD COMPONENTS
         //------------------------------------
@@ -115,6 +121,11 @@ public class MainFrame extends JFrame {
         );
 
         menuPanel.add(btnLichSuCapPhat);
+        menuPanel.add(
+                Box.createVerticalStrut(8)
+        );
+
+        menuPanel.add(btnLichSuThuHoi);
         menuPanel.add(
                 Box.createVerticalStrut(8)
         );
@@ -171,8 +182,10 @@ public class MainFrame extends JFrame {
                 "dashboard"
         );
 
+
+        thePanel = new ThePanel();
         contentPanel.add(
-                new ThePanel(),
+                thePanel,
                 "the"
         );
 
@@ -189,6 +202,11 @@ public class MainFrame extends JFrame {
         contentPanel.add(
                 capPhatPanel ,
                 "lichSuCapPhat"
+        );
+
+        thuHoiPanel = new ThuHoiPanel();
+        contentPanel.add(thuHoiPanel,
+                "lichSuThuHoi"
         );
 
         add(
@@ -217,10 +235,15 @@ public class MainFrame extends JFrame {
         );
 
         btnThe.addActionListener(
-                e -> cardLayout.show(
-                        contentPanel,
-                        "the"
-                )
+                e -> {
+
+                    thePanel.reloadData();
+
+                    cardLayout.show(
+                            contentPanel,
+                            "the"
+                    );
+                }
         );
 
         btnBoPhan.addActionListener(e ->
@@ -243,6 +266,16 @@ public class MainFrame extends JFrame {
                     cardLayout.show(
                             contentPanel,
                             "lichSuCapPhat"
+                    );
+                }
+        );
+
+        btnLichSuThuHoi.addActionListener(e ->
+                {
+                    thuHoiPanel.reloadData();
+                    cardLayout.show(
+                            contentPanel,
+                            "lichSuThuHoi"
                     );
                 }
         );

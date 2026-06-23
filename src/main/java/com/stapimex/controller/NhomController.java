@@ -1,10 +1,7 @@
 package com.stapimex.controller;
 
-import com.stapimex.dao.BoPhanDao;
 import com.stapimex.dao.NhomDao;
-import com.stapimex.dao.impl.BoPhanDaoImpl;
 import com.stapimex.dao.impl.NhomDaoImpl;
-import com.stapimex.model.BoPhan;
 import com.stapimex.model.Nhom;
 
 import javax.swing.table.DefaultTableModel;

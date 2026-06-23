@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ThuHoiCapPhatDao {
     List<ThuHoiCapPhatView> findAllCapPhat();
+    List<ThuHoiCapPhatView> findAllThuHoi();
     boolean insert(ThuHoiCapPhat thuHoiCapPhat);
     List<ThuHoiCapPhatView> search(
             Date tuNgay,
@@ -17,4 +18,8 @@ public interface ThuHoiCapPhatDao {
             Integer sbd,
             int capPhat
     );
+
+    boolean remove(ThuHoiCapPhat item);
+
+    boolean updateKyNhan(ThuHoiCapPhat item);
 }

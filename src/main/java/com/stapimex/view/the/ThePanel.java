@@ -5,6 +5,7 @@ import com.stapimex.controller.ThuHoiCapPhatController;
 import com.stapimex.model.ComboItem;
 import com.stapimex.model.ThuHoiCapPhat;
 import com.stapimex.view.capphat.CapPhatDialog;
+import com.stapimex.view.thuhoi.ThuHoiDialog;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -46,6 +47,10 @@ public class ThePanel extends JPanel {
 
         loadComboData();
 
+        reloadData();
+    }
+
+    public void reloadData(){
         controller.loadTable(model);
     }
 
@@ -415,6 +420,88 @@ public class ThePanel extends JPanel {
                     JOptionPane.showMessageDialog(
                             this,
                             "Cấp phát thành công"
+                    );
+
+                } catch (Exception ex) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            ex.getMessage(),
+                            "Lỗi" + ex.getMessage(),
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        });
+
+        btnThuHoi.addActionListener(e -> {
+
+            int row = table.getSelectedRow();
+
+            if (row < 0) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Vui lòng chọn thẻ"
+                );
+
+                return;
+            }
+
+            ThuHoiDialog dialog =
+                    new ThuHoiDialog(
+                            SwingUtilities.getWindowAncestor(this),
+                            "Thu hồi thẻ"
+                    );
+
+            dialog.setVisible(true);
+
+            if (dialog.isSaved()) {
+
+                try {
+
+                    int sbd =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            0
+                                    ).toString()
+                            );
+
+                    int maNhom =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            1
+                                    ).toString()
+                            );
+
+                    int maBoPhan =
+                            Integer.parseInt(
+                                    model.getValueAt(
+                                            row,
+                                            3
+                                    ).toString()
+                            );
+                    ThuHoiCapPhat thuHoiCapPhat = new ThuHoiCapPhat(
+                            dialog.getNgayThuHoi(),
+                            maBoPhan,
+                            maNhom,
+                            sbd,
+                            dialog.getSoLuong(),
+                            dialog.getTinhTrangText(),
+                            dialog.getDaKy(),
+                            0,
+                            dialog.getGhiChu());
+                    thuHoiCapPhatController.insert(
+                            thuHoiCapPhat
+                    );
+
+                    controller.loadTable(model);
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Thu hồi thành công!"
                     );
 
                 } catch (Exception ex) {
