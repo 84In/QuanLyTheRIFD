@@ -287,3 +287,47 @@ CREATE OR REPLACE VIEW vw_thu_hoi AS
 SELECT *
 FROM vw_thu_hoi_cap_phat
 WHERE cap_phat = 0;
+SELECT *
+FROM Thu_Hoi_Cap_Phat
+WHERE sbd = 99
+  AND ma_bo_phan = 2
+  AND ma_nhom = 3;
+
+SELECT
+    DAY(ngay_cap_phat_thu_hoi) ngay,
+    SUM(CASE WHEN cap_phat = 1 THEN so_luong ELSE 0 END) cap_phat,
+    SUM(CASE WHEN cap_phat = 0 THEN so_luong ELSE 0 END) thu_hoi
+FROM Thu_Hoi_Cap_Phat
+WHERE YEAR(ngay_cap_phat_thu_hoi)=YEAR(CURDATE())
+  AND MONTH(ngay_cap_phat_thu_hoi)=MONTH(CURDATE())
+GROUP BY DAY(ngay_cap_phat_thu_hoi)
+ORDER BY ngay;
+
+
+SELECT
+    DATE(ngay_cap_phat_thu_hoi) ngay,
+
+    SUM(
+    CASE
+    WHEN cap_phat = 1
+    THEN so_luong
+    ELSE 0
+    END
+    ) tong_cap_phat,
+
+    SUM(
+    CASE
+    WHEN cap_phat = 0
+    THEN so_luong
+    ELSE 0
+    END
+    ) tong_thu_hoi
+
+FROM Thu_Hoi_Cap_Phat
+
+WHERE MONTH(ngay_cap_phat_thu_hoi)= 06
+  AND YEAR(ngay_cap_phat_thu_hoi)= 2026
+
+GROUP BY DATE(ngay_cap_phat_thu_hoi)
+
+ORDER BY ngay;
